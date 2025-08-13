@@ -1,4 +1,9 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createAsyncThunk,
+  PayloadAction,
+  createSelector
+} from '@reduxjs/toolkit';
 import { TIngredient, TConstructorIngredient } from '@utils-types';
 import { nanoid } from '@reduxjs/toolkit';
 import { getIngredientsApi } from '@api';
@@ -72,6 +77,17 @@ export const ingredientsSlice = createSlice({
   selectors: {
     getIngredients: (state) => state.items,
     getItemsConstructor: (state) => state.itemsConstructor,
+    getItemsForOrder: createSelector(
+      (state: IIngredientsState) => state.itemsConstructor,
+      (itemsConstructor) => {
+        const items = [
+          itemsConstructor.bun,
+          ...itemsConstructor.ingredients,
+          itemsConstructor.bun
+        ];
+        return items.map((item) => item?._id);
+      }
+    ),
     isLoadingIngredients: (state) => state.loading
   },
   extraReducers: (builder) => {
@@ -95,5 +111,9 @@ export const ingredientsSlice = createSlice({
 export const { addIngredient, swapIngredients, removeIngredient } =
   ingredientsSlice.actions;
 
-export const { getIngredients, getItemsConstructor, isLoadingIngredients } =
-  ingredientsSlice.selectors;
+export const {
+  getIngredients,
+  getItemsConstructor,
+  getItemsForOrder,
+  isLoadingIngredients
+} = ingredientsSlice.selectors;

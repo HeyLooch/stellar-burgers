@@ -61,7 +61,7 @@ type TIngredientsResponse = TServerResponse<{
   data: TIngredient[];
 }>;
 
-type TFeedsResponse = TServerResponse<{
+export type TFeedsResponse = TServerResponse<{
   orders: TOrder[];
   total: number;
   totalToday: number;
@@ -95,11 +95,11 @@ export const getOrdersApi = () =>
       authorization: getCookie('accessToken')
     } as HeadersInit
   }).then((data) => {
-    if (data?.success) return data.orders;
+    if (data?.success) return data;
     return Promise.reject(data);
   });
 
-type TNewOrderResponse = TServerResponse<{
+export type TNewOrderResponse = TServerResponse<{
   order: TOrder;
   name: string;
 }>;

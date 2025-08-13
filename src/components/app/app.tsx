@@ -82,7 +82,7 @@ const App = () => {
         >
           <Route path='orders' element={<ProfileOrders />} />
           <Route
-            path='/profile/orders/:number'
+            path='orders/:number'
             element={
               <Modal title='' onClose={() => navigate(-1)}>
                 <OrderInfo />
