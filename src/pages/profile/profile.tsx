@@ -12,7 +12,6 @@ export const Profile: FC = () => {
   //   name: userData?.name,
   //   email: userData?.email
   // };
-  console.log(user);
 
   const [formValue, setFormValue] = useState({
     name: user?.name || '',
@@ -66,6 +65,4 @@ export const Profile: FC = () => {
       <Outlet />
     </>
   );
-
-  return null;
 };
