@@ -18,7 +18,7 @@ export const BurgerIngredients: FC = () => {
     if (ingredients.length === 0) {
       dispatch(fetchIngredients());
     }
-  }, [dispatch, ingredients.length]);
+  }, [ingredients.length]);
 
   const buns = ingredients.filter((item) => item.type === 'bun');
   const mains = ingredients.filter((item) => item.type === 'main');

@@ -32,9 +32,7 @@ const App = () => {
   useEffect(() => {
     dispatch(checkUserAuth());
   }, [dispatch]);
-  // const location = useLocation();
-  // const backgroundLocation = location.state?.background;
-  // location={backgroundLocation || location}
+  
   return (
     <div className={styles.app}>
       <AppHeader />
@@ -82,13 +80,21 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route path='/profile/orders' element={<ProfileOrders />} />
+        <Route path='/profile/orders'
+          element={
+            <ProtectedRoute>
+              <ProfileOrders />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path='/profile/orders/:number'
           element={
-            <Modal title='' onClose={() => navigate(-1)}>
-              <OrderInfo />
-            </Modal>
+            <ProtectedRoute>
+              <Modal title='' onClose={() => navigate(-1)}>
+                <OrderInfo />
+              </Modal>
+            </ProtectedRoute>
           }
         />
         <Route

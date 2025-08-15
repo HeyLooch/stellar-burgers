@@ -9,8 +9,8 @@ import { nanoid } from '@reduxjs/toolkit';
 import { getIngredientsApi } from '@api';
 
 interface IIngredientsState {
-  items: TIngredient[];
-  itemsConstructor: {
+  ingredients: TIngredient[];
+  burgerConstructor: {
     bun: TIngredient | null;
     ingredients: TConstructorIngredient[];
   };
@@ -18,20 +18,20 @@ interface IIngredientsState {
   error: string | null;
 }
 
-export const fetchIngredients = createAsyncThunk(
-  'ingredients/getAll',
-  async () => getIngredientsApi()
-);
-
 const initialState: IIngredientsState = {
-  items: [],
-  itemsConstructor: {
+  ingredients: [],
+  burgerConstructor: {
     bun: null,
     ingredients: []
   },
   loading: false,
   error: null
 };
+
+export const fetchIngredients = createAsyncThunk(
+  'ingredients/getAll',
+  async () => getIngredientsApi()
+);
 
 export const ingredientsSlice = createSlice({
   name: 'ingredients',
@@ -41,9 +41,9 @@ export const ingredientsSlice = createSlice({
       reducer: (state, action: PayloadAction<TConstructorIngredient>) => {
         const newIngredient = action.payload;
         if (newIngredient.type === 'bun') {
-          state.itemsConstructor.bun = newIngredient;
+          state.burgerConstructor.bun = newIngredient;
         } else {
-          state.itemsConstructor.ingredients.push(newIngredient);
+          state.burgerConstructor.ingredients.push(newIngredient);
         }
       },
       prepare: (ingredient: TIngredient) => {
@@ -57,42 +57,42 @@ export const ingredientsSlice = createSlice({
     ) => {
       const { from, to } = action.payload;
       [
-        state.itemsConstructor.ingredients[from],
-        state.itemsConstructor.ingredients[to]
+        state.burgerConstructor.ingredients[from],
+        state.burgerConstructor.ingredients[to]
       ] = [
-        state.itemsConstructor.ingredients[to],
-        state.itemsConstructor.ingredients[from]
+        state.burgerConstructor.ingredients[to],
+        state.burgerConstructor.ingredients[from]
       ];
     },
     removeIngredient: (
       state,
       action: PayloadAction<TConstructorIngredient>
     ) => {
-      state.itemsConstructor.ingredients =
-        state.itemsConstructor.ingredients.filter(
+      state.burgerConstructor.ingredients =
+        state.burgerConstructor.ingredients.filter(
           (item) => item.id !== action.payload.id
         );
     },
     clearConstructor: (state) => {
-      state.itemsConstructor.ingredients = [];
-      state.itemsConstructor.bun = null;
+      state.burgerConstructor.ingredients = [];
+      state.burgerConstructor.bun = null;
     }
   },
   selectors: {
-    getIngredients: (state) => state.items,
-    getItemsConstructor: (state) => state.itemsConstructor,
+    getIngredients: (state) => state.ingredients,
+    getItemsConstructor: (state) => state.burgerConstructor,
+    isLoadingIngredients: (state) => state.loading,
     getItemsForOrder: createSelector(
-      (state: IIngredientsState) => state.itemsConstructor,
-      (itemsConstructor) => {
+      (state: IIngredientsState) => state.burgerConstructor,
+      (burgerConstructor) => {
         const items = [
-          itemsConstructor.bun,
-          ...itemsConstructor.ingredients,
-          itemsConstructor.bun
+          burgerConstructor.bun,
+          ...burgerConstructor.ingredients,
+          burgerConstructor.bun
         ];
         return items.map((item) => item?._id);
       }
-    ),
-    isLoadingIngredients: (state) => state.loading
+    )
   },
   extraReducers: (builder) => {
     builder
@@ -105,7 +105,7 @@ export const ingredientsSlice = createSlice({
         state.error = action.error.message || 'Ошибка загрузки ингредиентов';
       })
       .addCase(fetchIngredients.fulfilled, (state, action) => {
-        state.items = action.payload;
+        state.ingredients = action.payload;
         state.loading = false;
         state.error = null;
       });

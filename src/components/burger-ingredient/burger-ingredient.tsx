@@ -12,7 +12,6 @@ export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
     const dispatch = useDispatch();
 
     const handleAdd = () => {
-      console.log(ingredient);
       if (ingredient) dispatch(addIngredient(ingredient));
     };
 

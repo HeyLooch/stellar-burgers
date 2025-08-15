@@ -16,15 +16,12 @@ export const OrderInfo: FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const orderRequest = useSelector(getOrderRequest);
-  const id = Number(location.pathname.split('/')[2]);
+  const id = Number(location.pathname.split('/').pop());
   useEffect(() => {
     dispatch(getOrderByNumber(id));
-  }, [id]);
+  }, [dispatch, id]);
 
   const orderData = useSelector(getOrderByNumberSelector) as TOrder;
-  // const orderData = useSelector(getOrderByNumberSelector);
-  console.log(`OrderInfo - id заказа ` + JSON.stringify(id));
-  console.log(`из Order-info - OrderData ` + JSON.stringify(orderData));
   const ingredients: TIngredient[] = useSelector(getIngredients) || [];
 
   /* Готовим данные для отображения */

@@ -1,42 +1,43 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { TOrder, TIngredient, TConstructorIngredient } from '@utils-types';
+import {
+  createSlice,
+  createAsyncThunk,
+  createSelector
+} from '@reduxjs/toolkit';
+import { TOrder } from '@utils-types';
+import { clearConstructor } from './ingredientsSlice';
 import {
   getFeedsApi,
   getOrderByNumberApi,
   getOrdersApi,
   orderBurgerApi,
-  TFeedsResponse,
-  TNewOrderResponse,
-  TOrderResponse
+  TFeedsResponse
 } from '@api';
-import { useDispatch } from '../store';
-import { clearConstructor } from './ingredientsSlice';
 
 interface IOrderState {
   ownOrders: TOrder[] | null;
-  orders: TFeedsResponse | null;
-  orderFeed: TFeedsResponse | null;
+  ordersFeed: TFeedsResponse | null;
   orderByNumber: TOrder | null;
   orderModalData: TOrder | null;
   orderRequest: boolean;
-  // loading: boolean;
   error: string | null;
 }
 
 const initialState: IOrderState = {
   ownOrders: null,
-  orders: null,
-  orderFeed: null,
+  ordersFeed: null,
   orderByNumber: null,
   orderModalData: null,
   orderRequest: false,
-  // loading: false,
   error: null
 };
 
 export const orderBurger = createAsyncThunk(
   'orders/post',
-  async (data: string[]) => orderBurgerApi(data)
+  async (data: string[], { dispatch }) => {
+    const res = await orderBurgerApi(data);
+    dispatch(clearConstructor());
+    return res;
+  }
 );
 
 export const getOwnOrders = createAsyncThunk('orders/getOwns', async () =>
@@ -56,7 +57,7 @@ export const ordersSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {
-    setOrderRequest: (state, action: PayloadAction<boolean>) => {
+    setOrderRequest: (state) => {
       state.orderRequest = true;
     },
     resetOrderModalData: (state) => {
@@ -64,25 +65,29 @@ export const ordersSlice = createSlice({
     }
   },
   selectors: {
-    getOrdersSelector: (state) => state.orders?.orders,
     getOwnOrdersSelector: (state) => state.ownOrders,
-    getOrdersTotal: (state) => ({
-      total: state.orderFeed?.total || 0,
-      totalToday: state.orderFeed?.totalToday || 0
-    }),
-    getOrdersFeed: (state) => state.orderFeed?.orders,
-    getOrderByNumberSelector: (state) => ({
-      createdAt: state.orderByNumber?.createdAt || '',
-      ingredients: state.orderByNumber?.ingredients || [],
-      _id: state.orderByNumber?._id || '',
-      status: state.orderByNumber?.status || '',
-      name: state.orderByNumber?.name || '',
-      updatedAt: state.orderByNumber?.updatedAt || '',
-      number: state.orderByNumber?.number || 0
-    }),
+    getOrdersFeed: (state) => state.ordersFeed?.orders,
+    getOrdersTotal: createSelector(
+      (state: IOrderState) => state.ordersFeed,
+      (ordersFeed) => ({
+        total: ordersFeed?.total || 0,
+        totalToday: ordersFeed?.totalToday || 0
+      })
+    ),
+    getOrderByNumberSelector: createSelector(
+      (state: IOrderState) => state.orderByNumber,
+      (orderByNumber) => ({
+        createdAt: orderByNumber?.createdAt || '',
+        ingredients: orderByNumber?.ingredients || [],
+        _id: orderByNumber?._id || '',
+        status: orderByNumber?.status || '',
+        name: orderByNumber?.name || '',
+        updatedAt: orderByNumber?.updatedAt || '',
+        number: orderByNumber?.number || 0
+      })
+    ),
     getOrderRequest: (state) => state.orderRequest,
     getOrderModalData: (state) => state.orderModalData
-    // isLoadingOrders: (state) => state.loading
   },
   extraReducers: (builder) => {
     builder
@@ -96,10 +101,6 @@ export const ordersSlice = createSlice({
       })
       .addCase(orderBurger.fulfilled, (state, action) => {
         state.orderModalData = action.payload.order;
-        console.log(
-          'fulfilled state.orderModalData = action.payload.order: ' +
-            JSON.stringify(state.orderModalData)
-        );
         state.error = null;
       })
       .addCase(getOwnOrders.pending, (state) => {
@@ -114,10 +115,6 @@ export const ordersSlice = createSlice({
       .addCase(getOwnOrders.fulfilled, (state, action) => {
         state.orderRequest = false;
         state.ownOrders = action.payload;
-        console.log(
-          'fulfilled state.ownOrders = action.payload: ' +
-            JSON.stringify(state.orders)
-        );
         state.error = null;
       })
       .addCase(getFeedOrders.pending, (state) => {
@@ -130,10 +127,7 @@ export const ordersSlice = createSlice({
       })
       .addCase(getFeedOrders.fulfilled, (state, action) => {
         state.orderRequest = false;
-        state.orderFeed = action.payload;
-        // console.log(
-        //   'fulfilled state.orderFeed = action.payload ' + JSON.stringify(action.payload)
-        // );
+        state.ordersFeed = action.payload;
       })
       .addCase(getOrderByNumber.pending, (state) => {
         state.orderRequest = true;
@@ -155,22 +149,16 @@ export const ordersSlice = createSlice({
           updatedAt: action.payload?.orders[0].updatedAt || '',
           number: action.payload?.orders[0].number || 0
         };
-        console.log(
-          'fulfilled getOrderByNumber - action.payload.orders' +
-            JSON.stringify(action.payload.orders)
-        );
       });
   }
 });
 export const { resetOrderModalData } = ordersSlice.actions;
 
 export const {
-  getOrdersSelector,
   getOwnOrdersSelector,
   getOrdersFeed,
   getOrderByNumberSelector,
   getOrdersTotal,
   getOrderRequest,
   getOrderModalData
-  // isLoadingOrders,
 } = ordersSlice.selectors;
