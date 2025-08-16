@@ -28,12 +28,22 @@ const initialState: IUserState = {
 
 export const registerUser = createAsyncThunk(
   'user/registration',
-  async (userData: TRegisterData) => registerUserApi(userData)
+  async (userData: TRegisterData) => {
+    const res = await registerUserApi(userData);
+    localStorage.setItem('refreshToken', res.refreshToken);
+    setCookie('accessToken', res.accessToken);
+    return res;
+  }
 );
 
 export const loginUser = createAsyncThunk(
   'user/login',
-  async (userData: TLoginData) => loginUserApi(userData)
+  async (userData: TLoginData) => {
+    const res = await loginUserApi(userData);
+    localStorage.setItem('refreshToken', res.refreshToken);
+    setCookie('accessToken', res.accessToken);
+    return res;
+  }
 );
 
 export const updateUser = createAsyncThunk(
@@ -43,16 +53,18 @@ export const updateUser = createAsyncThunk(
 
 export const checkUserAuth = createAsyncThunk(
   'user/checkUserAuth',
-  (_, { dispatch }) => {
+  async (_, { dispatch }) => {
     if (getCookie('accessToken')) {
-      getUserApi()
-        .then((data) => dispatch(setUser(data.user)))
-        .catch(() => {
+      try {
+        const res = await getUserApi();
+        dispatch(setUser(res.user));
+      } catch {
+        () => {
           console.log('Ошибка аутентификации пользователя');
-        })
-        .finally(() => {
-          dispatch(setIsAuthChecked());
-        });
+        };
+      } finally {
+        dispatch(setIsAuthChecked());
+      }
     } else {
       dispatch(setIsAuthChecked());
     }
@@ -100,19 +112,17 @@ export const userSlice = createSlice({
         state.error = null;
       })
       .addCase(registerUser.rejected, (state, action) => {
-        state.loading = false;
         state.isAuthChecked = true;
+        state.loading = false;
         state.error = action.error.message || 'ошибка регистрации пользователя';
       })
       .addCase(
         registerUser.fulfilled,
         (state, action: PayloadAction<TAuthResponse>) => {
-          state.loading = false;
-          state.isAuthChecked = true;
-          state.error = null;
           state.user = action.payload.user;
-          localStorage.setItem('refreshToken', action.payload.refreshToken);
-          setCookie('accessToken', action.payload.accessToken);
+          state.isAuthChecked = true;
+          state.loading = false;
+          state.error = null;
         }
       )
       .addCase(updateUser.pending, (state) => {
@@ -142,12 +152,10 @@ export const userSlice = createSlice({
       .addCase(
         loginUser.fulfilled,
         (state, action: PayloadAction<TAuthResponse>) => {
+          state.user = action.payload.user;
+          state.isAuthChecked = true;
           state.loading = false;
           state.error = null;
-          state.isAuthChecked = true;
-          state.user = action.payload.user;
-          localStorage.setItem('refreshToken', action.payload.refreshToken);
-          setCookie('accessToken', action.payload.accessToken);
         }
       );
   }

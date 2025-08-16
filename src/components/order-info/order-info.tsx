@@ -9,7 +9,10 @@ import {
   getOrderRequest
 } from '../../services/slices/orderSlice';
 import { useLocation } from 'react-router-dom';
-import { getIngredients } from '../../services/slices/ingredientsSlice';
+import {
+  fetchIngredients,
+  getIngredients
+} from '../../services/slices/ingredientsSlice';
 
 export const OrderInfo: FC = () => {
   /** TODO: взять переменные orderData и ingredients из стора */
@@ -17,12 +20,16 @@ export const OrderInfo: FC = () => {
   const location = useLocation();
   const orderRequest = useSelector(getOrderRequest);
   const id = Number(location.pathname.split('/').pop());
+  const orderData = useSelector(getOrderByNumberSelector) as TOrder;
+  const ingredients: TIngredient[] = useSelector(getIngredients) || [];
   useEffect(() => {
     dispatch(getOrderByNumber(id));
   }, [dispatch, id]);
-
-  const orderData = useSelector(getOrderByNumberSelector) as TOrder;
-  const ingredients: TIngredient[] = useSelector(getIngredients) || [];
+  useEffect(() => {
+    if (ingredients.length === 0) {
+      dispatch(fetchIngredients());
+    }
+  }, [ingredients]);
 
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {
