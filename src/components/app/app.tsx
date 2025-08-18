@@ -43,7 +43,7 @@ const App = () => {
     <div className={styles.app}>
       <AppHeader />
       {/* <Routes location={backgroundLocation || location}> либо hashrouter либо routes */}
-      <HashRouter location={backgroundLocation || location}>
+      <HashRouter>
         <Route path='*' element={<NotFound404 />} />
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
