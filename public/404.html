@@ -3,16 +3,11 @@
   <head>
     <meta charset="utf-8">
     <title>Redirecting...</title>
-    <script>
-      // Перенаправляем на корень с сохранением пути
-      const segment = 1; // Укажите сегмент пути, если проект в подпапке (например, /repo-name/)
-      const path = window.location.pathname.split('/').slice(segment).join('/');
-      window.location.href = segment === 0 
-        ? `/${path}${window.location.search}${window.location.hash}`
-        : `/${window.location.pathname.split('/')[1]}/${path}${window.location.search}${window.location.hash}`;
+    <script type="text/javascript">
+      // Сохраняем полный путь и редиректим на index.html
+      sessionStorage.redirect = location.href;
+      window.location.href = "/stellar-burgers/index.html";
     </script>
   </head>
-  <body>
-    <p>Redirecting...</p>
-  </body>
+  <body></body>
 </html>

@@ -101,6 +101,5 @@
     "extends": [
       "plugin:storybook/recommended"
     ]
-  },
-  "homepage": "https://heylooch.github.io/stellar-burgers/"
+  }
 }
