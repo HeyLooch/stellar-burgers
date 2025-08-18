@@ -54,6 +54,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html'
     }),
+    new HtmlWebpackPlugin({
+      template: './public/404.html'
+    }),
     new Dotenv()
   ],
   resolve: {
@@ -85,7 +88,7 @@ module.exports = {
     path: path.resolve(__dirname, './dist'),
     // filename: 'bundle.js'
     filename: 'bundle.[contenthash].js',
-    publicPath: '/stellar-burgers/', // если проект в подпапке
+    publicPath: '/', // если проект в подпапке
   },
   devServer: {
     static: path.join(__dirname, './dist'),
