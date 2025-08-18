@@ -55,7 +55,8 @@ module.exports = {
       template: './public/index.html'
     }),
     new HtmlWebpackPlugin({
-      template: './public/404.html'
+      template: './public/404.html',
+      filename: '404.html'
     }),
     new Dotenv()
   ],
@@ -87,7 +88,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './dist'),
     // filename: 'bundle.js'
-    filename: 'bundle.[contenthash].js',
+    filename: 'bundle.js',
     publicPath: '/', // если проект в подпапке
   },
   devServer: {
