@@ -2,7 +2,7 @@
 /* eslint-disable */
 import '../../index.css';
 import styles from './app.module.css';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation, HashRouter } from 'react-router-dom';
 import {
   ConstructorPage,
   Feed,
@@ -42,7 +42,8 @@ const App = () => {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Routes location={backgroundLocation || location}>
+      {/* <Routes location={backgroundLocation || location}> либо hashrouter либо routes */}
+      <HashRouter location={backgroundLocation || location}>
         <Route path='*' element={<NotFound404 />} />
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
@@ -111,7 +112,8 @@ const App = () => {
             <OrderInfo />
           }
         />
-      </Routes>
+      </HashRouter>
+      {/* </Routes> */}
       
       {backgroundLocation && 
         <Routes>
