@@ -22,7 +22,7 @@ interface IOrderState {
   error: string | null;
 }
 
-const initialState: IOrderState = {
+export const initialState: IOrderState = {
   ownOrders: null,
   ordersFeed: null,
   orderByNumber: null,

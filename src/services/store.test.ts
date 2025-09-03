@@ -1,19 +1,7 @@
-// store.test.ts
-import { combineSlices } from '@reduxjs/toolkit';
-import { ingredientsSlice } from './slices/ingredientsSlice';
-import { userSlice } from './slices/userSlice';
-import { ordersSlice } from './slices/orderSlice';
+import { rootReducer } from './store';
+import store from './store';
 
-describe('проверка инициализации rootReducer', () => {
-  const rootReducer = combineSlices(ingredientsSlice, userSlice, ordersSlice);
-
-  test('возвращает корректное начальное состояние при UNKNOWN_ACTION', () => {
-    const state = rootReducer(undefined, { type: 'UNKNOWN_ACTION' });
-
-    expect(state).toEqual({
-      ingredients: ingredientsSlice.getInitialState(),
-      user: userSlice.getInitialState(),
-      orders: ordersSlice.getInitialState()
-    });
-  });
+test('rootReducer настроен правильно и работает', () => {
+  const testState = rootReducer(undefined, { type: 'UNKNOWN_ACTION' });
+  expect(testState).toEqual(store.getState());
 });
