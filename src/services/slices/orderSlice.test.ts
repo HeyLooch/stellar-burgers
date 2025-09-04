@@ -4,13 +4,12 @@ import {
   orderBurger,
   getOwnOrders,
   getFeedOrders,
-  getOrderByNumber,
+  getOrderByNumber
 } from './orderSlice';
 
 describe(`orderSlice - проверка обработки редьюсером экшенов генерируемых 
   при выполнении асинхронного запроса: экшены начала запроса, успешного 
   выполнения запроса и ошибки запроса`, () => {
-
   const mockOrder = {
     _id: '68b591da673086001ba85ce0',
     status: 'done',
@@ -28,19 +27,17 @@ describe(`orderSlice - проверка обработки редьюсером 
   afterAll(() => {
     jest.restoreAllMocks();
   });
- 
+
   describe('orderBurger', () => {
-
     test(`orderBurger.pending обработка экшена начала запроса`, () => {
-    const action = { type: orderBurger.pending.type };
-    const state = ordersSlice.reducer(initialState, action);
+      const action = { type: orderBurger.pending.type };
+      const state = ordersSlice.reducer(initialState, action);
 
-    expect(state).toEqual({
-      ...initialState,
-      orderRequest: true,
-      error: null
-    })
-
+      expect(state).toEqual({
+        ...initialState,
+        orderRequest: true,
+        error: null
+      });
     });
 
     test(`orderBurger.fullfiled обработка экшена успешного
@@ -53,7 +50,7 @@ describe(`orderSlice - проверка обработки редьюсером 
           name: 'Марсианский бургер'
         }
       };
-      
+
       const state = ordersSlice.reducer(initialState, action);
 
       expect(state).toEqual({
@@ -62,7 +59,6 @@ describe(`orderSlice - проверка обработки редьюсером 
         error: null,
         orderModalData: mockOrder
       });
-
     });
 
     test(`orderBurger.rejected обработка экшена ошибки запроса`, () => {
@@ -73,24 +69,23 @@ describe(`orderSlice - проверка обработки редьюсером 
       const state = ordersSlice.reducer(initialState, action);
 
       expect(state).toEqual({
-      ...initialState,
-      orderRequest: false,
-      error: 'Ошибка загрузки заказа'
-      })
+        ...initialState,
+        orderRequest: false,
+        error: 'Ошибка загрузки заказа'
+      });
     });
   });
   describe('getOwnOrders', () => {
-    
     test(`getOwnOrders.pending обработка экшена начала запроса`, () => {
-    const action = { type: getOwnOrders.pending.type };
-    const state = ordersSlice.reducer(initialState, action);
+      const action = { type: getOwnOrders.pending.type };
+      const state = ordersSlice.reducer(initialState, action);
 
-    expect(state).toEqual({
-      ...initialState,
-      orderRequest: true,
-      error: null
-    })
-  });
+      expect(state).toEqual({
+        ...initialState,
+        orderRequest: true,
+        error: null
+      });
+    });
 
     test(`getOwnOrders.fullfiled обработка экшена успешного
       выполнения запроса`, () => {
@@ -98,7 +93,7 @@ describe(`orderSlice - проверка обработки редьюсером 
         type: getOwnOrders.fulfilled.type,
         payload: [mockOrder]
       };
-      
+
       const state = ordersSlice.reducer(initialState, action);
 
       expect(state).toEqual({
@@ -117,14 +112,13 @@ describe(`orderSlice - проверка обработки редьюсером 
       const state = ordersSlice.reducer(initialState, action);
 
       expect(state).toEqual({
-      ...initialState,
-      orderRequest: false,
-      error: 'Ошибка загрузки собственных заказов'
-    })
-  });
+        ...initialState,
+        orderRequest: false,
+        error: 'Ошибка загрузки собственных заказов'
+      });
+    });
   });
   describe('getFeedOrders', () => {
-
     test(`getFeedOrders.pending обработка экшена начала запроса`, () => {
       const action = { type: getFeedOrders.pending.type };
       const state = ordersSlice.reducer(initialState, action);
@@ -133,7 +127,7 @@ describe(`orderSlice - проверка обработки редьюсером 
         ...initialState,
         orderRequest: true,
         error: null
-      })
+      });
     });
 
     test(`getFeedOrders.fullfiled обработка экшена успешного
@@ -147,7 +141,7 @@ describe(`orderSlice - проверка обработки редьюсером 
           totalToday: 77
         }
       };
-      
+
       const state = ordersSlice.reducer(initialState, action);
 
       expect(state).toEqual({
@@ -171,24 +165,22 @@ describe(`orderSlice - проверка обработки редьюсером 
       const state = ordersSlice.reducer(initialState, action);
 
       expect(state).toEqual({
-      ...initialState,
-      orderRequest: false,
-      error: 'Ошибка загрузки собственных заказов'
-      })
+        ...initialState,
+        orderRequest: false,
+        error: 'Ошибка загрузки собственных заказов'
+      });
     });
   });
-    describe('getOrderByNumber', () => {
-
+  describe('getOrderByNumber', () => {
     test(`getOrderByNumber.pending обработка экшена начала запроса`, () => {
-    const action = { type: getOrderByNumber.pending.type };
-    const state = ordersSlice.reducer(initialState, action);
+      const action = { type: getOrderByNumber.pending.type };
+      const state = ordersSlice.reducer(initialState, action);
 
-    expect(state).toEqual({
-      ...initialState,
-      orderRequest: true,
-      error: null
-    })
-
+      expect(state).toEqual({
+        ...initialState,
+        orderRequest: true,
+        error: null
+      });
     });
 
     test(`getOrderByNumber.fullfiled обработка экшена успешного
@@ -200,7 +192,7 @@ describe(`orderSlice - проверка обработки редьюсером 
           orders: [mockOrder]
         }
       };
-      
+
       const state = ordersSlice.reducer(initialState, action);
 
       expect(state).toEqual({
@@ -209,7 +201,6 @@ describe(`orderSlice - проверка обработки редьюсером 
         error: null,
         orderByNumber: mockOrder
       });
-
     });
 
     test(`getOrderByNumber.rejected обработка экшена ошибки запроса`, () => {
@@ -220,10 +211,10 @@ describe(`orderSlice - проверка обработки редьюсером 
       const state = ordersSlice.reducer(initialState, action);
 
       expect(state).toEqual({
-      ...initialState,
-      orderRequest: false,
-      error: 'Ошибка получения заказа по номеру'
-      })
+        ...initialState,
+        orderRequest: false,
+        error: 'Ошибка получения заказа по номеру'
+      });
     });
   });
 });

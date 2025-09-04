@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1756906507159" clover="3.2.0">
-  <project timestamp="1756906507159" name="All files">
-    <metrics statements="770" coveredstatements="515" conditionals="58" coveredconditionals="37" methods="51" coveredmethods="13" elements="879" coveredelements="565" complexity="0" loc="770" ncloc="770" packages="3" files="6" classes="6"/>
+<coverage generated="1756970788531" clover="3.2.0">
+  <project timestamp="1756970788531" name="All files">
+    <metrics statements="774" coveredstatements="519" conditionals="58" coveredconditionals="37" methods="51" coveredmethods="13" elements="883" coveredelements="569" complexity="0" loc="774" ncloc="774" packages="3" files="6" classes="6"/>
     <package name="services">
-      <metrics statements="24" coveredstatements="24" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <metrics statements="28" coveredstatements="28" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="store.ts" path="C:\Users\HeyLooch\dev\stellar-burgers\src\services\store.ts">
-        <metrics statements="24" coveredstatements="24" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="28" coveredstatements="28" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -30,6 +30,10 @@
         <line num="22" count="1" type="stmt"/>
         <line num="23" count="1" type="stmt"/>
         <line num="24" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
       </file>
     </package>
     <package name="services.slices">

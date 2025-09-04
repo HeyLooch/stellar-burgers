@@ -9,7 +9,6 @@ import {
 describe(`userSlice - проверка обработки редьюсером экшенов генерируемых при выполнении 
   асинхронного запроса: экшены начала запроса, успешного выполнения
   запроса и ошибки запроса`, () => {
-
   const mockUser = {
     email: '123@ya.ru',
     name: 'testName'
@@ -20,14 +19,13 @@ describe(`userSlice - проверка обработки редьюсером �
     accessToken: `ijh83jgh309u3h5ji380ujg3983gj920g2fi
     kjg58u3gijew8ewrj493oijk43943kjm3`,
     user: mockUser
-  }
+  };
 
   afterAll(() => {
     jest.restoreAllMocks();
   });
- 
-  describe('registerUser', () => {
 
+  describe('registerUser', () => {
     test(`registerUser.pending обработка экшена начала запроса`, () => {
       const action = { type: registerUser.pending.type };
       const state = userSlice.reducer(initialState, action);
@@ -36,7 +34,7 @@ describe(`userSlice - проверка обработки редьюсером �
         ...initialState,
         loading: true,
         error: null
-      })
+      });
     });
 
     test(`registerUser.fullfiled обработка экшена успешного
@@ -45,7 +43,7 @@ describe(`userSlice - проверка обработки редьюсером �
         type: registerUser.fulfilled.type,
         payload: mockAuthResponse
       };
-      
+
       const state = userSlice.reducer(initialState, action);
 
       expect(state).toEqual({
@@ -65,15 +63,14 @@ describe(`userSlice - проверка обработки редьюсером �
       const state = userSlice.reducer(initialState, action);
 
       expect(state).toEqual({
-      ...initialState,
-      loading: false,
-      error: 'ошибка регистрации пользователя',
-      isAuthChecked: true
-      })
+        ...initialState,
+        loading: false,
+        error: 'ошибка регистрации пользователя',
+        isAuthChecked: true
+      });
     });
   });
-    describe('loginUser', () => {
-
+  describe('loginUser', () => {
     test(`loginUser.pending обработка экшена начала запроса`, () => {
       const action = { type: loginUser.pending.type };
       const state = userSlice.reducer(initialState, action);
@@ -82,7 +79,7 @@ describe(`userSlice - проверка обработки редьюсером �
         ...initialState,
         loading: true,
         error: null
-      })
+      });
     });
 
     test(`loginUser.fullfiled обработка экшена успешного
@@ -91,7 +88,7 @@ describe(`userSlice - проверка обработки редьюсером �
         type: loginUser.fulfilled.type,
         payload: mockAuthResponse
       };
-      
+
       const state = userSlice.reducer(initialState, action);
 
       expect(state).toEqual({
@@ -115,21 +112,19 @@ describe(`userSlice - проверка обработки редьюсером �
         loading: false,
         error: 'ошибка при логине пользователя',
         isAuthChecked: true
-      })
+      });
     });
   });
-    describe('updateUser', () => {
-
+  describe('updateUser', () => {
     test(`updateUser.pending обработка экшена начала запроса`, () => {
-    const action = { type: updateUser.pending.type };
-    const state = userSlice.reducer(initialState, action);
+      const action = { type: updateUser.pending.type };
+      const state = userSlice.reducer(initialState, action);
 
-    expect(state).toEqual({
-      ...initialState,
-      loading: true,
-      error: null
-    })
-
+      expect(state).toEqual({
+        ...initialState,
+        loading: true,
+        error: null
+      });
     });
 
     test(`updateUser.fullfiled обработка экшена успешного
@@ -138,7 +133,7 @@ describe(`userSlice - проверка обработки редьюсером �
         type: updateUser.fulfilled.type,
         payload: mockAuthResponse
       };
-      
+
       const state = userSlice.reducer(initialState, action);
 
       expect(state).toEqual({
@@ -157,10 +152,10 @@ describe(`userSlice - проверка обработки редьюсером �
       const state = userSlice.reducer(initialState, action);
 
       expect(state).toEqual({
-      ...initialState,
-      loading: false,
-      error: 'ошибка обновления данных пользователя'
-      })
+        ...initialState,
+        loading: false,
+        error: 'ошибка обновления данных пользователя'
+      });
     });
   });
 });

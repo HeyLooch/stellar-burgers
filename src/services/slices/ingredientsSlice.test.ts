@@ -100,11 +100,10 @@ const sortedMockIngredients: TIngredient[] = [
 ];
 
 describe('проверка слайса ingredientsSlice', () => {
-  
   afterAll(() => {
     jest.restoreAllMocks();
   });
-  
+
   describe('проверка обработки синхронных экшенов', () => {
     beforeEach(() => {
       jest.clearAllMocks();
@@ -121,7 +120,10 @@ describe('проверка слайса ingredientsSlice', () => {
 
     test(`addIngredient добавляет ингредиент (не-булку) с добавленным id в массив 
       ингредиентов`, () => {
-      const state = ingredientsSlice.reducer(initialState, addIngredient(sauce));
+      const state = ingredientsSlice.reducer(
+        initialState,
+        addIngredient(sauce)
+      );
 
       expect(state.burgerConstructor.bun).toBeNull();
       expect(state.burgerConstructor.ingredients).toHaveLength(1);
@@ -136,7 +138,7 @@ describe('проверка слайса ingredientsSlice', () => {
         initialState,
         addIngredient(sauce)
       );
-      
+
       expect(stateWithSauce.burgerConstructor.ingredients).toHaveLength(1);
 
       const stateAfterRemove = ingredientsSlice.reducer(
@@ -182,7 +184,7 @@ describe('проверка слайса ingredientsSlice', () => {
         ...initialState,
         loading: true,
         error: null
-      })
+      });
     });
 
     test(`fetchIngredients.fullfiled обработка экшена успешного
@@ -212,7 +214,7 @@ describe('проверка слайса ingredientsSlice', () => {
         ...initialState,
         loading: false,
         error: 'Ошибка загрузки ингредиентов'
-      })
+      });
     });
   });
 });
