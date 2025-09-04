@@ -100,6 +100,7 @@ export const ordersSlice = createSlice({
         state.error = action.error.message || 'Ошибка загрузки заказа';
       })
       .addCase(orderBurger.fulfilled, (state, action) => {
+        state.orderRequest = false;
         state.orderModalData = action.payload.order;
         state.error = null;
       })
