@@ -33,6 +33,7 @@
     "@babel/preset-env": "^7.23.6",
     "@babel/preset-react": "^7.23.3",
     "@babel/preset-typescript": "^7.23.3",
+    "@jest/globals": "^30.1.1",
     "@storybook/addon-essentials": "^7.6.10",
     "@storybook/addon-interactions": "^7.6.10",
     "@storybook/addon-links": "^7.6.10",
@@ -81,7 +82,7 @@
     "storybook": "^7.6.10",
     "storybook-addon-react-router-v6": "^2.0.10",
     "style-loader": "^3.3.3",
-    "ts-jest": "^29.1.1",
+    "ts-jest": "^29.4.1",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "url-loader": "^4.1.1"
@@ -95,7 +96,9 @@
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier ./src --write",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "test": "jest --verbose",
+    "cypress:open": "cypress open"
   },
   "eslintConfig": {
     "extends": [
